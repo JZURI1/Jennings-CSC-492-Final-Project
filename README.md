@@ -38,9 +38,17 @@ module load conda/latest
 ```
 git clone https://github.com/attackbench/attackbench.git
 ```
-5. Activate environment 
+5. Activate conda environment 
 ```
 conda env create -f environment.yml 
+```
+6. Activate Attackbench
+```
+conda activate atkbench
+```
+7. Run the Attackbench
+```
+python -m attack_evaluation.run  -F results_dir/ with model.augustin_2020 attack.adv_lib_fmn attack.threat_model="l2" dataset.num_samples=1000 dataset.batch_size=64 seed=42
 ```
 
 ## Software Installation
