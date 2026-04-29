@@ -25,9 +25,11 @@ request GPU \
 srun --partition=gpu --gres=gpu:a100:1 --mem=30G --time=06:00:00 --pty bash
 
 2. Load models \
-"module load gcc/11.2.0" \
+```
+module load gcc/11.2.0 \
 module load cuda/11.8 \
 module load conda/latest \
+```
 
 3. Load AttackBench from Github \
 git clone https://github.com/attackbench/attackbench.git
