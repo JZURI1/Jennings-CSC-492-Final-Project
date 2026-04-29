@@ -36,7 +36,7 @@ module load conda/latest
 
 4. Load AttackBench from Github 
 ```
-git clone [https://github.com/attackbench/attackbench.git](https://github.com/JZURI1/Jennings-CSC-492-Final-Project.git)
+git clone https://github.com/attackbench/attackbench.git
 ```
 5. Open File
 ```
