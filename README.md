@@ -34,9 +34,10 @@ module load cuda/11.8
 module load conda/latest 
 ```
 
-3. Load AttackBench from Github 
+4. Load AttackBench from Github 
 ```
 git clone https://github.com/attackbench/attackbench.git
+cd attackbench
 ```
 5. Activate conda environment 
 ```
