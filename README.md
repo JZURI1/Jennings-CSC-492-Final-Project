@@ -23,7 +23,7 @@ inproceedings{cina2025attackbench,
 ```
 ssh unity 
 ```
-request GPU 
+2. request GPU 
 ```
 srun --partition=gpu --gres=gpu:a100:1 --mem=30G --time=06:00:00 --pty bash
 ```
@@ -56,7 +56,7 @@ VS Code with Python installed \
 Access to Unity for GPU \
 GCC version 11.2.0 \
 CUDA version 11.8 \
-Conda version miniforge 3-24.7.1 \
+Conda version miniforge 3-24.7.1 
 
 
 ## Models
