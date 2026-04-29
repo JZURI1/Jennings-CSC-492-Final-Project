@@ -52,9 +52,11 @@ python -m attack_evaluation.run  -F results_dir/ with model.augustin_2020 attack
 ```
 
 ## Software Installation
-VS Code with Python Installed 
-Access to Unity for GPU 
-Install Miniconda 
+VS Code with Python installed \
+Access to Unity for GPU \
+GCC version 11.2.0 \
+CUDA version 11.8 \
+Conda version miniforge 3-24.7.1 \
 
 
 ## Models
