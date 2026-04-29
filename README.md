@@ -36,18 +36,21 @@ module load conda/latest
 
 4. Load AttackBench from Github 
 ```
-git clone https://github.com/attackbench/attackbench.git
+git clone [https://github.com/attackbench/attackbench.git](https://github.com/JZURI1/Jennings-CSC-492-Final-Project.git)
+```
+5. Open File
+```
 cd attackbench
 ```
-5. Activate conda environment 
+6. Activate conda environment 
 ```
 conda env create -f environment.yml 
 ```
-6. Activate Attackbench
+7. Activate Attackbench
 ```
 conda activate atkbench
 ```
-7. Run the Attackbench
+8. Run the Attackbench
 ```
 python -m attack_evaluation.run  -F results_dir/ with model.augustin_2020 attack.adv_lib_fmn attack.threat_model="l2" dataset.num_samples=1000 dataset.batch_size=64 seed=42
 ```
