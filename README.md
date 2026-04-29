@@ -19,26 +19,26 @@ inproceedings{cina2025attackbench,
 }
 
 ## Step by Step Guide
-1. Activate Unity \
+1. Activate Unity 
 ```
 ssh unity 
 ```
-request GPU \
+request GPU 
 ```
 srun --partition=gpu --gres=gpu:a100:1 --mem=30G --time=06:00:00 --pty bash
 ```
-3. Load models \
+3. Load models 
 ```
-module load gcc/11.2.0 \
-module load cuda/11.8 \
-module load conda/latest \
+module load gcc/11.2.0 
+module load cuda/11.8 
+module load conda/latest 
 ```
 
-3. Load AttackBench from Github \
+3. Load AttackBench from Github 
 ```
 git clone https://github.com/attackbench/attackbench.git
 ```
-5. Activate environment \
+5. Activate environment 
 ```
 conda env create -f environment.yml 
 ```
