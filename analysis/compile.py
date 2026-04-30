@@ -6,7 +6,7 @@ import pathlib
 from read import read_distances
 from utils import Scenario
 
-
+# For all attacks in that scenario finds the minimum distance by keeping the smallest perturbation distance across all runs.
 def compile_scenario(path: pathlib.Path, scenario: Scenario, distance_type: str, recompile_all: bool = False) -> None:
     # find completed experiment results
     scenario_path = path / scenario.dataset / scenario.threat_model / scenario.model.lower()
@@ -32,7 +32,7 @@ def compile_scenario(path: pathlib.Path, scenario: Scenario, distance_type: str,
     with open(best_distances_path, 'w') as f:
         json.dump(best_distances, f, indent=4)
 
-
+# Parsing CLI arguments
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Compile results from several attacks')
 
@@ -53,6 +53,7 @@ if __name__ == '__main__':
     threat_model = args.threat_model or '*'
     model = args.model or '*'
 
+    # Extract components of a scenarios from it's path.
     scenarios = result_path.glob(os.sep.join((dataset, threat_model, model)))
     for scenario_dir in scenarios:
         scenario_dataset, scenario_threat_model, scenario_model = scenario_dir.parts[-3:]
