@@ -25,7 +25,7 @@ ssh unity
 ```
 2. request GPU 
 ```
-srun --partition=gpu --gres=gpu:a100:1 --mem=30G --time=06:00:00 --pty bash
+srun --partition=gpu --gres=gpu:a100:1 --mem=32G --time=06:00:00 --pty bash
 ```
 3. Load models 
 ```
@@ -66,7 +66,7 @@ Conda version miniforge 3-24.7.1
 ## Models
 
 ## System Requirements
-32 GB Ram Unity
+Unity GPU with suffecient memory
 
 
 ## Contact
