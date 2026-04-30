@@ -6,7 +6,7 @@ Javon Jennings \
 URI CSC 492 \
 Final Project 
 
-Student anaysis of \
+## Student anaysis of \
 inproceedings{cina2025attackbench,
   title={Attackbench: Evaluating gradient-based attacks for adversarial examples},
   author={Cin{\`a}, Antonio Emanuele and Rony, J{\'e}r{\^o}me and Pintor, Maura and Demetrio, Luca and Demontis, Ambra and Biggio, Battista and Ayed, Ismail Ben and Roli, Fabio},
@@ -17,6 +17,9 @@ inproceedings{cina2025attackbench,
   year={2025},
   DOI={10.1609/aaai.v39i3.32263}
 }
+
+## About
+In this project I implemented the AttackBench from the paper on my own device using VS code running with Unity. My goal was to recreate the results of the paper for the ℓ 2 model running within the constraints of the resources I had at my disposal. Below is a step by step guide as well as requirements for running AttackBench if you are working with similar resources at your disposal.
 
 ## Step by Step Guide
 1. Activate Unity 
@@ -66,7 +69,9 @@ Conda version miniforge 3-24.7.1
 ## Models
 
 ## System Requirements
-Unity GPU with suffecient memory
+GPU: A100 recommended
+RAM: 32
+Other: Bash to run Linux for Unity
 
 
 ## Contact
