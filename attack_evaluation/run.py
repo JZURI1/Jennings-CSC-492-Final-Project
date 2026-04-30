@@ -1,3 +1,4 @@
+# Imports
 from collections import OrderedDict
 from pathlib import Path
 from pprint import pprint
@@ -75,18 +76,19 @@ metrics = OrderedDict([
     ('l2', l2_distances),
 ])
 
-
+# Main executions
 @ex.automain
 def main(cpu: bool,
          cudnn_flag: str,
          save_adv: bool,
          _config, _run, _log, _seed):
+    # Setup device GPU, if CPU is not avalible use CPU. (We had a line like this in our assingment code.)
     device = torch.device('cuda' if torch.cuda.is_available() and not cpu else 'cpu')
     setattr(torch.backends.cudnn, cudnn_flag, True)
 
     set_seed(_seed)
     print(f'Running experiments with seed {_seed}')
-
+    # Load the componets of the threat model that we have. (dataset, model, attack)
     threat_model = _config['attack']['threat_model']
     loader = get_loader(dataset=_config['model']['dataset'])
     attack = get_attack()
@@ -100,16 +102,19 @@ def main(cpu: bool,
     file_observers = [obs for obs in _run.observers if isinstance(obs, FileStorageObserver)]
     save_dir = file_observers[0].dir if len(file_observers) else None
 
+    # Run adversarial attack model evaluation
     attack_data = run_attack(model=model, loader=loader, attack=attack, metrics=metrics, threat_model=threat_model,
                              return_adv=save_adv and save_dir is not None, debug=_run.debug)
-
+             
+    # save adversarial examples if chosen
     if save_adv and save_dir is not None:
         torch.save(attack_data, Path(save_dir) / f'attack_data.pt')
-
+    # Store results
     if 'inputs' in attack_data.keys():
         del attack_data['inputs'], attack_data['adv_inputs']
     _run.info = attack_data
 
+    # Print debug
     if _run.debug:
         pprint(_run.info)
 
