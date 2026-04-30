@@ -4,26 +4,29 @@ import numpy as np
 import json
 from itertools import product
 
+# Define the storage structure
 Scenario = namedtuple('Scenario', ['dataset', 'batch_size', 'threat_model', 'model'])
 
 _MAX_GAIN = 2.1
 
-
+# Returns the top K attacks
 def top_k_attacks(attacks_to_plot: dict, k: int = None, only_distinct: bool = False):
     if only_distinct:
         return top_k_unique_attacks(attacks_to_plot, k)
     #attack_names = [k for k, v in sorted(attacks_to_plot.items(), reverse=False, key=lambda item: item[1]['area'])]
+    # Sorts attacks by optimality
     attack_names = [k for k, v in sorted(attacks_to_plot.items(), reverse=True, key=lambda item: item[1]['optimality'])]
     return zip(attack_names, [rename_attack(atk) for atk in attack_names][:k])
 
 def top_k_unique_attacks(attacks_to_plot: dict, k: int = None):
     # {k: v['area'] for k, v in sorted(attacks_to_plot.items(), reverse=True, key=lambda item: item[1]['area'])}
     attack_names = np.array([k for k, v in sorted(attacks_to_plot.items(), reverse=False, key=lambda item: item[1]['area'])])
+    # Extracts attack type
     attack_no_lib = [rename_attack(atk).split(' ')[1] for atk in attack_names]
     names, index = np.unique(attack_no_lib, return_index=True)
     return zip(attack_names[index][:k], names[:k])
 
-
+# Cleans attack names for nice looking dysplay
 def rename_attack(atk_name):
     return ((atk_name[:-2].replace('_minimal', '').replace('apgd_t', 'APGD$_t$').replace('l1', '$\ell_1$'))
             .replace('linf', '$\ell_\infty$').replace('l2', '$\ell_\infty$').replace('_$\ell','-$\ell').replace('apgd', 'APGD').replace('fmn', 'FMN').replace('pdpgd', 'PDPGD')
@@ -61,15 +64,16 @@ def ensemble_gain_(atk1: np.ndarray, atk2: np.ndarray) -> float:
 
     return min(c * e, _MAX_GAIN)
 
-
+# Calculate the amount the attack one successed when attack 2 fails
 def ensemble_gain(atk1: np.ndarray, atk2: np.ndarray) -> float:
     n = len(atk1)
     return ((atk2 == 0) & (atk1 == 1)).sum() / n
 
-
+# Combines attack one and attack 2 using minimum perturbation distance
 def ensemble_distances(atk1_distances: np.ndarray, atk2_distances: np.ndarray) -> np.ndarray:
     return np.minimum(atk1_distances, atk2_distances)
-
+    
+# Computes how close an attack is to optimal performance
 def eval_optimality(adv_distances: np.ndarray, best_distances: list) -> np.ndarray:
     distances, counts = np.unique(best_distances, return_counts=True)
     robust_acc = 1 - counts.cumsum() / len(best_distances)
