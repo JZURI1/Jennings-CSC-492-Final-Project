@@ -14,7 +14,7 @@ from tqdm import tqdm
 
 from .models.benchmodel_wrapper import BenchModel
 
-
+# Runs adversarial attack over a data set and gathers metrics 
 def run_attack(model: BenchModel,
                loader: DataLoader,
                attack: Callable,
@@ -23,17 +23,21 @@ def run_attack(model: BenchModel,
                threat_model: str = 'l2',
                return_adv: bool = False,
                debug: bool = False) -> dict:
+
+    # Setup
     device = next(model.parameters()).device
     targeted = True if targets is not None else False
     loader_length = len(loader)
 
+    # Initialize containers 
     accuracies, ori_success, adv_success, hashes, box_failures, batch_failures = [], [], [], [], [], []
     forwards, backwards, times = [], [], []
     distances, best_optim_distances = defaultdict(list), defaultdict(list)
 
+    # Store inputs and adversarial examples if wanted
     if return_adv:
         all_inputs, all_adv_inputs = [], []
-
+    # Iteration through database
     for inputs, labels in tqdm(loader, ncols=80, total=loader_length):
         if return_adv:
             all_inputs.append(inputs.clone())
@@ -48,7 +52,8 @@ def run_attack(model: BenchModel,
         # start tracking of the batch
         model.start_tracking(inputs=inputs, labels=labels, targeted=targeted, targets=targets,
                              tracking_metric=_default_metrics[threat_model], tracking_threat_model=threat_model)
-
+        
+      # Run attack with optional debug
         if debug:
             adv_inputs = attack(model=model, inputs=attack_inputs, labels=attack_labels,
                                 targeted=targeted, targets=targets)
@@ -62,9 +67,10 @@ def run_attack(model: BenchModel,
                 traceback.print_exc()
                 batch_failures.append(True)
                 adv_inputs = inputs
-
+        # Stop tracking metrics
         model.end_tracking()
         adv_inputs.detach_()
+        # Record runtime and query count
         times.append(model.elapsed_time)
         forwards.extend(model.num_forwards.cpu().tolist())
         backwards.extend(model.num_backwards.cpu().tolist())
@@ -80,20 +86,24 @@ def run_attack(model: BenchModel,
         if batch_box_failures.any():
             warnings.warn('Values of produced adversarials are not in the [0, 1] range -> Clipping to [0, 1].')
             adv_inputs.clamp_(min=0, max=1)
-
+          
+        # Save adversarial samples if wanted
         if return_adv:
             all_adv_inputs.append(adv_inputs.cpu().clone())
-
+          
+        # Evaluate the success of adversial example
         adv_logits = model(adv_inputs)
         adv_pred = adv_logits.argmax(dim=1)
 
         success = (adv_pred == targets) if targeted else (adv_pred != labels)
         adv_success.extend(success.cpu().tolist())
 
+        # Compute the perturbation distances
         for metric, metric_func in metrics.items():
             distances[metric].extend(metric_func(adv_inputs, inputs).cpu().tolist())
             best_optim_distances[metric].extend(model.min_dist[metric].cpu().tolist())
-
+    
+    # Combine results
     data = {
         'hashes': hashes,
         'targeted': targeted,
@@ -110,6 +120,7 @@ def run_attack(model: BenchModel,
         'batch_failures': batch_failures,
     }
 
+    # If wanted include raw and adversarial inputs
     if return_adv:
         # shapes = [img.shape for img in all_inputs]
         # if len(set(shapes)) == 1:
