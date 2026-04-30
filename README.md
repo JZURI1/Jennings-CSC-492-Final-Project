@@ -66,7 +66,9 @@ CUDA version 11.8 \
 Conda version miniforge 3-24.7.1 
 
 
-## Models
+## Datasets
+CIFAR-10 \
+ImageNet 
 
 ## System Requirements
 GPU: A100 recommended
