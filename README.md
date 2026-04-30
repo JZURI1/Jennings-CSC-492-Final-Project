@@ -6,7 +6,7 @@ Javon Jennings \
 URI CSC 492 \
 Final Project 
 
-## Student anaysis of \
+## Student anaysis of 
 @inproceedings{cina2025attackbench,
   title={Attackbench: Evaluating gradient-based attacks for adversarial examples},
   author={Cin{\`a}, Antonio Emanuele and Rony, J{\'e}r{\^o}me and Pintor, Maura and Demetrio, Luca and Demontis, Ambra and Biggio, Battista and Ayed, Ismail Ben and Roli, Fabio},
