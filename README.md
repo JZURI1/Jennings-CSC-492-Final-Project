@@ -71,8 +71,8 @@ CIFAR-10 \
 ImageNet 
 
 ## System Requirements
-GPU: A100 recommended
-RAM: 32
+GPU: A100 recommended \
+RAM: 32 \
 Other: Bash to run Linux for Unity
 
 
